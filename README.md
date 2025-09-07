@@ -8,7 +8,11 @@ The tasks are based on:
 - **Finance & fund accounting use cases**  
 - **Artificial case studies** that simulate realistic scenarios which may occur in professional practice, inspired by my own experience in investment funds.  
 
-The purpose is to build strong SQL skills for professional use in fintech / investment banking and to prepare for certification exams.  
+## Purpose
+This repository is created solely for **educational and training purposes**.  
+The dataset (`lux_funds` table) is **entirely artificial** and does not represent real financial data.  
+The inclusion of common financial institution names (banks, auditors) serves **only to make the exercises more realistic** and relatable to professional SQL use cases in finance.
+
 
 ---
 
@@ -37,3 +41,10 @@ The purpose is to build strong SQL skills for professional use in fintech / inve
 - ✅ Advanced filtering  
 - 🔄 Case studies in fund accounting and reconciliation  
 - 🔜 Oracle SQL certification style exam prep  
+
+---
+
+## Disclaimer
+All data in this repository is **artificially generated** and used only for learning purposes.  
+It has no connection to any real financial institution, client, or transaction.  
+Bank names and auditor names are included **only to maintain realism of the exercises** and reflect terminology from the investment banking industry.  
