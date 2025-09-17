@@ -17,7 +17,7 @@ The inclusion of common financial institution names (banks, auditors) serves **o
 - `02_aggregations/` – COUNT, SUM, AVG, MIN, MAX, GROUP BY, HAVING  
 - `03_data_management/` – INSERT, UPDATE, DELETE, CREATE, ALTER, DROP  
 - `04_advanced_filters/` – BETWEEN, IN, NOT IN, LIKE, complex conditions  
-- `05_mixed_tasks/` – SQL exercises combining multiple functions and conditions  
+- `05_case_studies/` – SQL exercises combining multiple functions and conditions  
 
 ---
 
