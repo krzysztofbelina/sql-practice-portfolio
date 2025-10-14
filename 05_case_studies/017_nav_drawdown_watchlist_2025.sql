@@ -1,4 +1,4 @@
--- Case Study 1: NAV drawdown watchlist for 2025 (non-empty constraints)
+-- Case Study: NAV drawdown watchlist for 2025 (non-empty constraints)
 SELECT
     fund_name,
     COUNT(*) AS drop_count,
