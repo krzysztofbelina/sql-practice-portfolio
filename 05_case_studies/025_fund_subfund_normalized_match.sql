@@ -1,4 +1,6 @@
 -- Case Study: Fund/Subfund normalization match across FA vs Custody
+-- Objective: Produce a clean, comparable view of fund/subfund pairs where FA (lux_funds) and Custody (custody_nav)
+--  align on normalized names and date. Demonstrates normalization, join discipline, and DQ filters.
 SELECT
 	UPPER(TRIM(REPLACE(f.fund_name, '_', ' '))) AS normalized_fund_name,
 	UPPER(TRIM(REPLACE(f.subfund_name, '2', ' '))) AS normalized_subfund_name,
