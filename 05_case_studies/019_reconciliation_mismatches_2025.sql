@@ -1,4 +1,4 @@
--- Case Study 5: Reconciliation mismatches between fund accounting and custody (2025)
+-- Case Study: Reconciliation mismatches between fund accounting and custody (2025)
 -- Objective: list unmatched rows and amount discrepancies between sources.
 
 SELECT
