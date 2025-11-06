@@ -1,17 +1,1 @@
-# 06 – Real Life Financial Case Studies
-
-This section contains full-scale, operationally realistic SQL reconciliation cases
-designed to simulate production fund operations.
-
-Each case demonstrates:
-- A clear financial rationale (why the logic matters)
-- The use of previously learned SQL functions (COALESCE, CASE, JOIN, etc.)
-- Compliance alignment (UCITS / CSSF context)
-- Practical output validation (thresholds, variance categorization)
-
-| Case | Description | Focus |
-|-------|--------------|--------|
-| 01 | Strict vs Mixed NAV Comparison | Data integrity and fallback impact |
-| 02 | TBD | – |
-| 03 | TBD | – |
 
