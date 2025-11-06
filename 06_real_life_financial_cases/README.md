@@ -1,3 +1,5 @@
+# 06_real_life_financial_cases
+
 This section contains SQL tasks and datasets based on **real-world fund operations and reconciliation scenarios**.  
 Each task represents a realistic operational challenge inspired by daily processes in investment fund administration,  
 including NAV control, custody vs FA comparison, and exception identification.
