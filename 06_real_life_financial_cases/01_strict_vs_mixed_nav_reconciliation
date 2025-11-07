@@ -1,4 +1,5 @@
 # Case 01 — STRICT vs MIXED NAV Reconciliation
+Use case: detecting NAV mismatches  for daily fund reconciliation
 
 ## 1) Why `COALESCE` and why **not** with estimates or other dates
 
