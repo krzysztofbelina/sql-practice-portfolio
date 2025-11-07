@@ -60,10 +60,9 @@ ORDER BY
   f.subfund_name,
   f.nav_date;
 
-
   ---
 
-  ## 3) SQL — MIXED (with estimates)
+## 3) SQL — MIXED (with estimates)
 
 ```sql
 -- MIXED: Allows estimated_amount as explicit fallback (operational view, not audit-compliant)
