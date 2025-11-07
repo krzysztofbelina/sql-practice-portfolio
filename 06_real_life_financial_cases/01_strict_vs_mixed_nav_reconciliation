@@ -29,8 +29,7 @@ Use `COALESCE(x, 0)` **only** to prevent null propagation in calculations. It do
 -- Buckets: absolute-only (stable, materiality-aligned)  
 -- Window count: exception population size in one pass  
 
-```sql
-SELECT
+<pre><code class="language-sql">SELECT
   f.fund_name,
   f.subfund_name,
   f.nav_date,
@@ -58,6 +57,8 @@ ORDER BY
   f.fund_name,
   f.subfund_name,
   f.nav_date;
+</code></pre>
+
 
   ---
 
