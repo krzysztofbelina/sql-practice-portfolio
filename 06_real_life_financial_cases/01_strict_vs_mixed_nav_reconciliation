@@ -23,12 +23,13 @@ Use `COALESCE(x, 0)` **only** to prevent null propagation in calculations. It do
 
 ## 2) SQL — STRICT (no estimates)
 
--- STRICT: Real NAV vs Real NAV (audit-compliant)
--- Join: exact triplet (fund_name, subfund_name, nav_date)
--- Filter: absolute difference > 30,000
--- Buckets: absolute-only (stable, materiality-aligned)
--- Window count: exception population size in one pass
+-- STRICT: Real NAV vs Real NAV (audit-compliant)  
+-- Join: exact triplet (fund_name, subfund_name, nav_date)  
+-- Filter: absolute difference > 30,000  
+-- Buckets: absolute-only (stable, materiality-aligned)  
+-- Window count: exception population size in one pass  
 
+```sql
 SELECT
   f.fund_name,
   f.subfund_name,
