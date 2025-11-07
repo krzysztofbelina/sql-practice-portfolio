@@ -24,6 +24,7 @@ Use `COALESCE(x, 0)` **only** to prevent null propagation in calculations. It do
 
 ## 2) SQL — STRICT (no estimates)
 
+```sql
 -- STRICT: Real NAV vs Real NAV (audit-compliant)  
 -- Join: exact triplet (fund_name, subfund_name, nav_date)  
 -- Filter: absolute difference > 30,000  
@@ -64,6 +65,7 @@ ORDER BY
 
   ## 3) SQL — MIXED (with estimates)
 
+```sql
 -- MIXED: Allows estimated_amount as explicit fallback (operational view, not audit-compliant)
 -- Same join, thresholds, and buckets. Purpose: quantify impact of fallbacks on exception counts.
 
