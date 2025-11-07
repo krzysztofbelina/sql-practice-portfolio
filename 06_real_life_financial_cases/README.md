@@ -25,21 +25,9 @@ JOIN operations, and NULL handling — and apply them in practical financial con
 
 ---
 
-## 🧾 Notes
-
-- All data in these examples is **synthetic** and was artificially generated for educational and portfolio purposes.  
-- The naming convention reflects **real terminology** used in fund operations (BNP Paribas, Deloitte, EY, etc.),  
-  but **does not represent real clients or financial data**.  
-- Each query was validated to return **non-empty and logically consistent results**.
-
-
----
 
 ## 🧠 Goal
 
 The goal of this section is to demonstrate **SQL-driven reconciliation capability** — the ability to find, explain,  
 and document valuation differences between financial sources without relying on Excel or automation tools.  
 This approach mirrors how reconciliation analysts and fund operations teams work with production data in investment banks.
-
----
-
