@@ -1,5 +1,5 @@
 # Case 01 — STRICT vs MIXED NAV Reconciliation
-Use case: detecting NAV mismatches  for daily fund reconciliation
+Use case: detecting NAV mismatches for daily fund reconciliation
 
 ## 1) Why `COALESCE` and why **not** with estimates or other dates
 
@@ -25,11 +25,11 @@ Use `COALESCE(x, 0)` **only** to prevent null propagation in calculations. It do
 ## 2) SQL — STRICT (no estimates)
 
 ```sql
--- STRICT: Real NAV vs Real NAV (audit-compliant)  
--- Join: exact triplet (fund_name, subfund_name, nav_date)  
--- Filter: absolute difference > 30,000  
--- Buckets: absolute-only (stable, materiality-aligned)  
--- Window count: exception population size in one pass  
+-- STRICT: Real NAV vs Real NAV (audit-compliant)
+-- Join: exact triplet (fund_name, subfund_name, nav_date)
+-- Filter: absolute difference > 30,000
+-- Buckets: absolute-only (stable, materiality-aligned)
+-- Window count: exception population size in one pass
 
 SELECT
   f.fund_name,
@@ -59,8 +59,9 @@ ORDER BY
   f.fund_name,
   f.subfund_name,
   f.nav_date;
+```
 
-  ---
+---
 
 ## 3) SQL — MIXED (with estimates)
 
@@ -100,48 +101,47 @@ ORDER BY
   f.fund_name,
   f.subfund_name,
   f.nav_date;
+```
 
 ---
 
-  SUMMARY — IMPACT & CONSEQUENCES (STRICT 20 vs MIXED 23)
+## SUMMARY — IMPACT & CONSEQUENCES (STRICT 20 vs MIXED 23)
 
 Key fact:
-- STRICT exceptions = 20
-- MIXED exceptions = 23
+- STRICT exceptions = 20  
+- MIXED exceptions = 23  
 - Mixed adds 3 additional exceptions due to estimated fallbacks.
 
-Legal / regulatory consequences
-- NAV integrity breach risk: mixing estimates can be treated as improper valuation practice under UCITS Art.22 and AIFMD Art.19. Regulators (CSSF, ESMA, CNMV, IOSCO guidance) expect date-accurate NAVs and formal NAV error regimes (see CSSF 24/856).
-- Reporting exposure: inflated exception counts may trigger unnecessary NAV error reports or incorrect remedial filings. That increases legal scrutiny and risk of regulatory inquiries.
-- Audit trail weakness: presenting mixed results as “reconciled” undermines depositary oversight and external audit conclusions. Could lead to qualification in audit reports.
-- Potential penalties: material misreporting or repeated NAV errors can lead to fines, required restatements, and formal remediation plans imposed by supervisors.
+Legal / regulatory consequences  
+- NAV integrity breach risk: mixing estimates can be treated as improper valuation practice under UCITS Art.22 and AIFMD Art.19. Regulators (CSSF, ESMA, CNMV, IOSCO guidance) expect date-accurate NAVs and formal NAV error regimes (see CSSF 24/856).  
+- Reporting exposure: inflated exception counts may trigger unnecessary NAV error reports or incorrect remedial filings. That increases legal scrutiny and risk of regulatory inquiries.  
+- Audit trail weakness: presenting mixed results as “reconciled” undermines depositary oversight and external audit conclusions. Could lead to qualification in audit reports.  
+- Potential penalties: material misreporting or repeated NAV errors can lead to fines, required restatements, and formal remediation plans imposed by supervisors.  
 
-Operational / process consequences
-- False positives overhead: +3 extra exceptions equals wasted analyst hours investigating non-material or estimate-driven mismatches.
-- Escalation churn: more exceptions -> more tickets -> more meetings -> delayed root-cause resolution for real issues.
-- SLA and deadline risk: inflated queue can cause missed reconciliation SLAs, late investor reporting, and delayed NAV publication.
-- Decision noise: dashboards and ops pipelines will prioritize wrong items or dilute focus on real high-severity breaks.
+Operational / process consequences  
+- False positives overhead: +3 extra exceptions equals wasted analyst hours investigating non-material or estimate-driven mismatches.  
+- Escalation churn: more exceptions → more tickets → delayed root-cause resolution for real issues.  
+- SLA and deadline risk: inflated queue can cause missed reconciliation SLAs, late investor reporting, and delayed NAV publication.  
+- Decision noise: dashboards and ops pipelines will prioritize wrong items or dilute focus on real high-severity breaks.  
 
-Financial consequences
-- Direct cost: analyst time (investigation, calls, emails) multiplied by false-positive count.
-- Indirect cost: delayed NAVs can block subscriptions/redemptions, harm liquidity management, and in extreme cases trigger client claims.
-- Reputational cost: repeated governance issues reduce trust from clients, custodians, and auditors.
+Financial consequences  
+- Direct cost: analyst time (investigation, calls, emails) multiplied by false-positive count.  
+- Indirect cost: delayed NAVs can block subscriptions/redemptions, harm liquidity management, and in extreme cases trigger client claims.  
+- Reputational cost: repeated governance issues reduce trust from clients, custodians, and auditors.  
 
-Control & governance implications
-- Policy gap: absence of strict source hierarchy or unclear fallback rules leads operations to mix data ad-hoc.
-- Segregation of duties: lack of separate “operational diagnostics” vs “audit truth” pipelines causes mixed results to leak into formal reports.
-- Change management: introducing estimates without governance requires documented approvals, test plans, and audit trail.
+Control & governance implications  
+- Policy gap: absence of strict source hierarchy or unclear fallback rules leads operations to mix data ad-hoc.  
+- Segregation of duties: lack of separate “operational diagnostics” vs “audit truth” pipelines causes mixed results to leak into formal reports.  
+- Change management: introducing estimates without governance requires documented approvals, test plans, and audit trail.  
 
-Recommended mitigation (practical steps)
-1. Lock audit pipeline to STRICT logic. Mixed pipeline can run parallel for diagnostics only.
-2. Document fallback policy: when estimates may be used, who approves, and how results are flagged.
-3. Add automated flags in ETL: mark rows using estimated_amount; exclude from audit exports.
-4. Triage rules: auto-filter Low bucket for manual review; escalate Very_High immediately.
-5. Track metrics: record strict_count vs mixed_count daily; alert on divergence threshold (e.g., >10%).
-6. Root-cause workflows: ticket creation, RCA, remediation owner, SLA clock.
-7. Governance: update fund valuation policy & operations manual to reflect decision.
-8. Audit evidence: store query snapshots, parameters, and exception lists per run for external review.
+Recommended mitigation (practical steps)  
+1. Lock audit pipeline to STRICT logic. Mixed pipeline can run parallel for diagnostics only.  
+2. Document fallback policy: when estimates may be used, who approves, and how results are flagged.  
+3. Add automated flags in ETL: mark rows using estimated_amount; exclude from audit exports.  
+4. Triage rules: auto-filter Low bucket for manual review; escalate Very_High immediately.  
+5. Track metrics: record strict_count vs mixed_count daily; alert on divergence threshold (e.g., >10%).  
+6. Root-cause workflows: ticket creation, RCA, remediation owner, SLA clock.  
+7. Governance: update fund valuation policy & operations manual to reflect decision.  
+8. Audit evidence: store query snapshots, parameters, and exception lists per run for external review.  
 
-Conclusion (one line)
-- Allowing estimates inflates exceptions, wastes resources, weakens controls, and creates regulatory and audit risk; maintain strict date-accurate NAVs for reporting and run mixed only as a controlled diagnostic layer.
-
+**Conclusion:** Allowing estimates inflates exceptions, wastes resources, weakens controls, and creates regulatory and audit risk; maintain strict date-accurate NAVs for reporting and run mixed only as a controlled diagnostic layer.
