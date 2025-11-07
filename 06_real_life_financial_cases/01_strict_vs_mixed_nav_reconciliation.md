@@ -105,6 +105,20 @@ ORDER BY
 
 ---
 
+## ⚠️ Important Note: When `COALESCE` should **not** be used in reconciliation
+
+This logic assumes that **both FA and Custody have posted their NAV entries** for the same valuation date.  
+If one side has not yet booked its NAV, `COALESCE` will **fabricate a variance** instead of exposing a genuine *unmatched record*.  
+
+In fund accounting, this type of difference is not a reconciliation break — it’s a **timing difference** (e.g., pending posting, late booking, or data feed delay).  
+These items must be excluded from “real breaks” and handled via separate workflows, such as *Pending Settlement* or *Unposted Items* queues.
+
+In other words:
+- `INNER JOIN` = valid only for posted and comparable records.  
+- `COALESCE(..., 0)` = use only to avoid NULL math issues within matched pairs, never to mask missing data.  
+
+---
+
 ## SUMMARY — IMPACT & CONSEQUENCES (STRICT 20 vs MIXED 23)
 
 Key fact:
