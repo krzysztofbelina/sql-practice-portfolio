@@ -1,30 +1,42 @@
--- Case 03 — Proposed end-to-end NAV Break Control Pipeline (2025)
+# Case 03 — Proposed end-to-end NAV Break Control Pipeline for 2025 (FA vs Custody)
 
--- Use case:
---   Build a maintainable, audit-ready NAV break control pipeline for 2025 using FA and Custody data.
---   Replace fragile macros with a transparent, step-based SQL workflow that any analyst can debug.
+## Business context
 
--- Sources:
---   • lux_funds  (Fund Accounting – “FA”)
---   • custody_nav (Custodian – “Custody”)
+In large fund-administration environments (Lux FA / Custody), NAV controls often rely  
+on legacy Excel/VBA macros owned by a single technical specialist. These tools are  
+fragile, tied to strict file structures, and frequently become a single point of failure:  
+when the macro owner is unavailable, even minor issues (like a changed file extension)  
+can halt production because process analysts and new joiners cannot debug the logic.
 
--- Materiality thresholds (absolute differences):
---   • Very_High  ≥ 300,000
---   • High       ≥ 200,000
---   • Moderate   ≥ 50,000
---   • Filter floor for exceptions: > 30,000
+This proposed end-to-end, exception-based NAV control pipeline replaces such fragile  
+workflows with a transparent, step-by-step SQL process. Each layer represents a clear  
+business task: selecting FA/Custody universes, normalising naming differences, joining  
+both books, applying materiality thresholds, and classifying exceptions. The structure  
+is maintainable, audit-friendly and hand-over ready — designed so both technical and  
+non-technical staff can follow and debug it without relying on a single expert.
 
--- Core principle:
---   A NAV “difference” can only be evaluated when both books post a comparable value.
---   Join logic defines comparability. Missing-side cases must be explicitly exposed, not hidden.
+## Purpose
 
--- Pipeline steps (business view):
---   Step 1: FA universe for 2025 — clean, validated FA rows.
---   Step 2: Custody universe for 2025 — same scope, matching filters.
---   Step 3: Normalised FA/Custody join — align naming conventions, unify keys.
---   Step 4: NAV differences + materiality — compute absolute gaps and classify size.
---   Step 5: Exception classification — identify Missing_FA, Missing_Custody, True_Break.
+Provide a 2025 FA–Custody NAV break pipeline that:
 
+- builds clean FA and Custody universes for 2025,  
+- aligns naming conventions between books,  
+- computes NAV differences with materiality-based prioritisation,  
+- classifies exceptions for oversight, escalation, and daily control.
+
+## Method
+
+- Step 1: FA base universe (clean 2025 scope).  
+- Step 2: Custody base universe (matching scope).  
+- Step 3: Normalised FA–Custody join (consistent keys).  
+- Step 4: NAV differences + materiality buckets.  
+- Step 5: Exception classification.  
+
+---
+
+## SQL pipeline
+
+```sql
 -- Step 1: FA base universe (2025)
 WITH fa_base AS (
     SELECT
@@ -132,7 +144,7 @@ breaks_classified AS (
     FROM breaks_raw
 )
 
--- Final output: detailed exceptions (operational and oversight use)
+-- Final output: detailed exceptions for operational or oversight review
 SELECT
     fund_name,
     subfund_name,
@@ -156,10 +168,14 @@ ORDER BY
     fund_name,
     subfund_name,
     nav_date;
+```
 
--- Technical step explanation (technical view):
---   Step 1: Select FA rows for 2025 with valid amounts and clean identifiers.
---   Step 2: Select Custody rows for 2025 under the same data-quality rules.
---   Step 3: Normalise naming conventions and create a unified join on comparable keys.
---   Step 4: Compute FA–Custody differences and assign materiality buckets.
---   Step 5: Classify all rows into exception categories for NAV oversight workflows.
+---
+
+## Technical step explanations
+
+- Step 1 (fa_base): Selects FA entries for 2025 with clean naming and valid amounts.  
+- Step 2 (custody_base): Mirrors Step 1 on Custody data to ensure aligned universes.  
+- Step 3 (normalized_join): Normalises naming conventions and joins FA/Custody on consistent keys.  
+- Step 4 (breaks_raw): Computes NAV differences and applies multi-level materiality thresholds.  
+- Step 5 (breaks_classified): Converts raw differences into exception categories for oversight workflows.  
