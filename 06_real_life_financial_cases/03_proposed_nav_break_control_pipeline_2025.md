@@ -6,7 +6,7 @@ In large fund-administration environments (FA / Custody), NAV controls often rel
 on legacy Excel/VBA macros owned by a single technical specialist. These tools are  
 fragile, tied to strict file structures, and frequently become a single point of failure:  
 when the macro owner is unavailable, even minor issues (like a changed file extension)  
-can halt production because process analysts and new joiners cannot debug the logic.
+can delay production because process analysts and new joiners cannot debug the logic.
 
 This proposed end-to-end, exception-based NAV control pipeline replaces such fragile  
 workflows with a transparent, step-by-step SQL process. Each layer represents a clear  
