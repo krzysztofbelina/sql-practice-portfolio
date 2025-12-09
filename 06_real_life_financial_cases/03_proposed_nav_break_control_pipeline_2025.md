@@ -2,7 +2,7 @@
 
 ## Business context
 
-In large fund-administration environments (Lux FA / Custody), NAV controls often rely  
+In large fund-administration environments (FA / Custody), NAV controls often rely  
 on legacy Excel/VBA macros owned by a single technical specialist. These tools are  
 fragile, tied to strict file structures, and frequently become a single point of failure:  
 when the macro owner is unavailable, even minor issues (like a changed file extension)  
